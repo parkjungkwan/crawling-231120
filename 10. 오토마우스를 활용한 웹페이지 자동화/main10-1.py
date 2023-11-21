@@ -1,5 +1,6 @@
 import pyautogui
 # pip install PyAutoGUI
+# conda install -c conda-forge pyautogui
 import time
 
 class Weather:
