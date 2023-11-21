@@ -1,6 +1,17 @@
 from gtts import gTTS
 
-text = "안녕하세요. 파이썬과 40개의 작품들 입니다."
+class TextToSpeech:
 
-tts = gTTS(text=text, lang='ko')
-tts.save(r"3. 텍스트를 음성으로 변환\hi.mp3")
+    def __init__(self):
+        self.text = ''
+
+    def set_text(self, text):
+        self.text = text
+
+
+    def save_text(self):
+        tts = gTTS(text=self.text, lang='ko')
+        tts.save(r"./text.mp3")
+
+if __name__ == '__main__':
+    pass
