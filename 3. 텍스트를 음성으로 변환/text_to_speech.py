@@ -22,4 +22,4 @@ if __name__ == '__main__':
     t.set_text(text)
     t.save_mp3(title)
 
-    playsound("./hi.mp3")
+    playsound(f"./{title}.mp3")
