@@ -37,5 +37,6 @@ if __name__ == '__main__':
     for i in ls:
         print(i)
 
-
+    df = pd.DataFrame(ls)
+    df.to_excel(r'./certificate/테스트.xlsx', index=False, header=False)
     # c.save_to_excel()
