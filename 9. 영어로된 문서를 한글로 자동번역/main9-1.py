@@ -1,5 +1,5 @@
 import googletrans 
-
+# pip install googletrans==4.0.0-rc1
 translator = googletrans.Translator() 
 
 str1 = "행복하세요" 
