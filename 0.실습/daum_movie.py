@@ -31,11 +31,26 @@ class DaumMovie:
             res = requests.get(self.url)
             ls = json.loads(res.text)
             print(f' i 값 : {ls}')
+            '''
+            [{"rating": "1", "content": "3.72UBD 예상보다 많은 분들이 보셨네요.", "user": {"displayName": "The Force"}}]
+            를 pretty json 사이트에서 돌리면, 다음과 같이 정리 되어 보여준다.불필요한 데이터는 제거함.
+            [
+              {
+                "rating": "1",
+                "content": "3.72UBD 예상보다 많은 분들이 보셨네요.",
+                "user": {
+                  "displayName": "The Force"
+                }
+              }
+            ]
+            '''
             for i, _ in enumerate(ls):
                 review = ls[i]['content'] # pretty json 사이트에서 키값을추출함
                 user = ls[i]['user']['displayName']
                 rating = ls[i]['rating']
                 self.review_list.append([user, rating, review])
+            df = pd.DataFrame(self.review_list, columns=['user', 'rating','review'])
+            df.to_excel('./data/daum_review.xlsx')
 
 
 
