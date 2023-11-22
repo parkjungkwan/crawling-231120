@@ -74,10 +74,6 @@ class GoogleImage:
         driver.close()
 
 
-
-
-
-
 if __name__ == '__main__':
 
     g = GoogleImage()
