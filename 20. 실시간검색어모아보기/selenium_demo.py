@@ -1,15 +1,17 @@
-from webdriver_manager.chrome import ChromeDriverManager
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 from selenium import webdriver
 from bs4 import BeautifulSoup
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 def scrap():
     url = 'https://movie.naver.com/movie/sdb/rank/rmovie.nhn'
     class_name = ''
     # driver_path = 'C:/Program Files/Google/Chrome/chromedriver'
-    driver_path = '/usr/local/bin/chromedriver'
+    driver_path = './driver/chromedriver'
     driver = webdriver.Chrome(driver_path)
     driver.get(url)
     soup = BeautifulSoup(driver.page_source, 'html.parser')
@@ -26,4 +28,4 @@ def main():
 
 if __name__ == '__main__':
 
-    scrap()
+    main()

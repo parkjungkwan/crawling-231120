@@ -1,19 +1,48 @@
-class MelonMusic:
-    def __init__(self):
-        url = 'https://www.melon.com/chart/index.htm?dayTime='
-        headers = {'User-Agent': 'Mozilla/5.0'}
-        class_name = []
+from bs4 import BeautifulSoup
+import requests
 
-    def set_url(self, url):
-        self.url = f'{self.domain}/{url}'
+class Melon(object):
+    url = 'https://www.melon.com/chart/index.htm?dayTime='
+    headers = {'User-Agent': 'Mozilla/5.0'}
+    class_name = []
 
-    def get_url(self):
-        return self.url
+
+    def set_url(self, time):
+        self.url = requests.get(f'{self.url}{time}', headers=self.headers).text
+
+
+    def get_ranking(self):
+        soup = BeautifulSoup(self.url, 'lxml')
+        print('------- 제목 --------')
+        ls = soup.find_all("div", {"class": self.class_name[0]})
+        for i in ls:
+            print(f' {i.find("a").text}')
+        print('------ 가수 --------')
+        ls = soup.find_all("div", {"class": self.class_name[1]})
+        for i in ls:
+            print(f' {i.find("a").text}')
+
 
 
 if __name__ == '__main__':
-    m = MelonMusic()
-    url = input('멜론에서 크롤링할 url 을 입력하세요.')
-    m.set_url(url)
-    u2 = m.get_url()
-    print(f'당신이 원하는 대상은 {u2} 입니다.')
+    melon = Melon()
+    while 1:
+        menu = input('0-exit, 1-input time, 2-output')
+        if menu == '0':
+            break
+        elif menu == '1':
+            melon.set_url(input('스크래핑할 날짜 입력'))  # '2021052511'
+        elif menu == '2':
+            melon.class_name.append('ellipsis rank01')
+            melon.class_name.append('ellipsis rank02')
+            melon.get_ranking()
+        else:
+            print('Wrong number')
+            continue
+
+
+
+
+
+
+
