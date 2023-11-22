@@ -3,18 +3,24 @@ import pandas as pd
 
 class NaverStock:
     def __init__(self):
-        self.code = None
+        self.code = pd.DataFrame({'name':[], 'code':[]})
+        self.url = ''
 
     def krx_crawl(self):
         c = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=download&searchType=13', header=0)[0]
         # print(c)
         c['종목코드'] = c['종목코드'].map('{:06d}'.format) # 005930 이 5930 으로 출력되는 것을 막는다
         k = c[['회사명','종목코드']]
-        print(k)
+        # print(k)
+        self.code = k.rename(columns={'회사명': 'name', '종목코드': 'code'})
+        print(self.code)
 
 
-    def get_url(self):
-        pass
+    def get_url(self, item_name):
+        #c = self.code.query("name='{}'".format(item_name))['code'].to_string(index=False)
+        c = f'https://finance.naver.com/item/sise_day.naver?code=005930'
+        return c
+
 
     def naver_crawl(self):
         pass
@@ -32,7 +38,9 @@ if __name__ == '__main__':
             n.krx_crawl()
 
         elif menu == '2':
-            pass
+            item = input('검색하는 종목명을 입력')
+            a = n.get_url(item)
+            print(f'획득한 url {a}')
 
         elif menu == '3':
             pass
