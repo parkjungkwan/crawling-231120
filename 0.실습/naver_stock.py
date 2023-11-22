@@ -1,5 +1,6 @@
 import pandas as pd
-
+import requests
+from bs4 import BeautifulSoup
 
 class NaverStock:
     def __init__(self):
@@ -18,12 +19,32 @@ class NaverStock:
 
     def get_url(self, item_name):
         #c = self.code.query("name='{}'".format(item_name))['code'].to_string(index=False)
-        c = f'https://finance.naver.com/item/sise_day.naver?code=005930'
+        c = f'https://finance.naver.com/item/sise_day.naver?code=005930&page=1'
+        self.url = c
         return c
 
 
     def naver_crawl(self):
-        pass
+        headers = {'User-Agent': 'Mozilla/5.0'} # 헤더를 요구하는 사이트에 추가해 준다.
+        req = requests.get(self.url, headers=headers)
+        html = BeautifulSoup(req.text, 'lxml')
+        pgrr = html.find('td', class_='pgRR')
+        print(f" a태그 href 값 : {pgrr.a['href']}")
+        s = pgrr.a['href'].split('=')
+        last_page = s[-1]
+        temp_page = 10
+
+        df = None
+
+        for i in range(1, int(temp_page)+1):
+            req = requests.get(f'{self.url}&page={i}', headers=headers)
+            df = pd.concat([df, pd.read_html(req.text, encoding='euc-kr')[0]])
+
+        df.dropna(inplace=True)
+        df.reset_index(drop=True, inplace=True)
+        df.to_excel('./data/samsung_price.xlsx')
+
+
 
 if __name__ == '__main__':
 
@@ -43,7 +64,7 @@ if __name__ == '__main__':
             print(f'획득한 url {a}')
 
         elif menu == '3':
-            pass
+            n.naver_crawl()
 
         else:
             print('잘못된 값')
