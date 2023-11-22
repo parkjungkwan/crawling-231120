@@ -31,6 +31,11 @@ class DaumMovie:
             res = requests.get(self.url)
             ls = json.loads(res.text)
             print(f' i 값 : {ls}')
+            for i, _ in enumerate(ls):
+                review = ls[i]['content'] # pretty json 사이트에서 키값을추출함
+                user = ls[i]['user']['displayName']
+                rating = ls[i]['rating']
+                self.review_list.append([user, rating, review])
 
 
 
