@@ -7,7 +7,11 @@ class NaverStock:
 
     def krx_crawl(self):
         c = pd.read_html('http://kind.krx.co.kr/corpgeneral/corpList.do?method=download&searchType=13', header=0)[0]
-        print(c)
+        # print(c)
+        c['종목코드'] = c['종목코드'].map('{:06d}'.format) # 005930 이 5930 으로 출력되는 것을 막는다
+        k = c[['회사명','종목코드']]
+        print(k)
+
 
     def get_url(self):
         pass
